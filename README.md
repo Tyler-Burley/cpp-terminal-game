@@ -29,3 +29,6 @@ g++ main.cpp -o game
 
 # Run the executable
 ./game
+```
+
+<img width="634" height="553" alt="Screenshot 2026-01-05 132206" src="https://github.com/user-attachments/assets/8eb73e34-563d-49b9-90db-0ebfe2a663b6" />
