@@ -31,4 +31,5 @@ g++ main.cpp -o game
 ./game
 ```
 
-<img width="634" height="553" alt="Screenshot 2026-01-05 132206" src="https://github.com/user-attachments/assets/8eb73e34-563d-49b9-90db-0ebfe2a663b6" />
+
+<img width="947" height="588" alt="Screenshot 2026-01-05 175544" src="https://github.com/user-attachments/assets/0aee8dcc-37ab-4a2e-8792-794ea91282a8" />
