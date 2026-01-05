@@ -35,15 +35,9 @@ struct Player
   */
 class Grid
 {
-public:
-    /*int player_x;
-    int player_y;*/
-
+private:
     Player player;
     Player computer;
-
-    //int comp_x;
-    //int comp_y;
 
     int goal_x;
     int goal_y;
@@ -52,6 +46,7 @@ public:
     int comp_score;
 
     std::vector<std::vector<int>> grid;
+public:
 
     /**
      * @brief Constructs the grid and initializes the game state.
@@ -122,6 +117,8 @@ public:
     void displayGrid()
     {
         std::cout << "YOUR SCORE: " << player_score << " || COMPUTER SCORE: "<< comp_score << std::endl;
+        std::cout << "YOUR POSITION: (" << this->player.x_pos << "," << this->player.y_pos << ")" << " || ";
+        std::cout << "COMPUTER POSITION: (" << this->computer.x_pos << "," << this->computer.y_pos << ")" << std::endl;
         std::cout << "--------------------------------" << std::endl;
 
         for (int i = 0; i < grid.size(); i++)
@@ -179,6 +176,61 @@ public:
 
         grid[p->y_pos][p->x_pos] = id;
     }
+
+    /**
+     * @brief wrapper of move so computer makes "smart" moves.
+     */
+    void moveComputer()
+    {
+        bool try_horizontal_first = (std::rand() % 2 == 0);
+
+        if (try_horizontal_first)
+        {
+            if (this->computer.x_pos < this->goal_x)
+            {
+                move(User::COMPUTER, Direction::RIGHT);
+                return;
+            }
+            if (this->computer.x_pos > this->goal_x)
+            {
+                move(User::COMPUTER, Direction::LEFT);
+                return;
+            }
+            if (this->computer.y_pos < this->goal_y)
+            {
+                move(User::COMPUTER, Direction::DOWN);
+                return;
+            }
+            if (this->computer.y_pos > this->goal_y)
+            {
+                move(User::COMPUTER, Direction::UP);
+                return;
+            }
+        }
+        else
+        {
+            if (this->computer.y_pos < this->goal_y)
+            {
+                move(User::COMPUTER, Direction::DOWN);
+                return;
+            }
+            if (this->computer.y_pos > this->goal_y)
+            {
+                move(User::COMPUTER, Direction::UP);
+                return;
+            }
+            if (this->computer.x_pos < this->goal_x)
+            {
+                move(User::COMPUTER, Direction::RIGHT);
+                return;
+            }
+            if (this->computer.x_pos > this->goal_x)
+            {
+                move(User::COMPUTER, Direction::LEFT);
+                return;
+            }
+        }
+    }
 };
 
 /**
@@ -192,7 +244,9 @@ int main()
     Grid grid(10);
     char input;
 
-    while (true)
+    bool is_running = true;
+
+    while (is_running)
     {
         // Clear screen (Platform independent trick)
         std::cout << "\033[2J\033[H";
@@ -201,10 +255,29 @@ int main()
         std::cout << "\nQuit with q, Move (w/a/s/d): ";
         std::cin >> input;
 
-        if (input == 'd') grid.move(User::PLAYER, Direction::RIGHT);
-        else if (input == 'a') grid.move(User::PLAYER, Direction::LEFT);
-        else if (input == 'w') grid.move(User::PLAYER, Direction::UP);
-        else if (input == 's') grid.move(User::PLAYER, Direction::DOWN);
-        else if (input == 'q') break;
+        // Player moves
+        switch (input)
+        {
+        case 'd':
+            grid.move(User::PLAYER, Direction::RIGHT);
+            break;
+        case 'a':
+            grid.move(User::PLAYER, Direction::LEFT);
+            break;
+        case 'w':
+            grid.move(User::PLAYER, Direction::UP);
+            break;
+        case 's':
+            grid.move(User::PLAYER, Direction::DOWN);
+            break;
+        case 'q':
+            is_running = false;
+            break;
+        default:
+            break;
+        }
+
+        // Computer moves
+        grid.moveComputer();
     }
 }
