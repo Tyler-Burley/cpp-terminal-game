@@ -9,6 +9,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include < conio.h >
 
 #define GRID_SIZE 12
 
@@ -256,8 +257,11 @@ int main()
         std::cout << "\033[2J\033[H";
 
         grid.displayGrid();
-        std::cout << "\nQuit with q, Move (w/a/s/d): ";
-        std::cin >> input;
+        /*std::cout << "\nQuit with q, Move (w/a/s/d): ";
+        std::cin >> input;*/
+
+        std::cout << "\nUse WASD to move (Press 'q' to quit)..." << std::endl;
+        input = _getch();
 
         // Player moves
         switch (input)
