@@ -10,6 +10,25 @@
 #include <cstdlib>
 #include <ctime>
 
+enum class Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+    NONE
+};
+
+enum class User {
+    PLAYER,
+    COMPUTER
+};
+
+struct Player
+{
+    int x_pos;
+    int y_pos;
+};
+
  /**
   * @class Grid
   * @brief Manages the game board, player movement, and goal generation.
@@ -17,12 +36,20 @@
 class Grid
 {
 public:
-    int player_x;
-    int player_y;
+    /*int player_x;
+    int player_y;*/
+
+    Player player;
+    Player computer;
+
+    //int comp_x;
+    //int comp_y;
 
     int goal_x;
     int goal_y;
-    int score;
+
+    int player_score;
+    int comp_score;
 
     std::vector<std::vector<int>> grid;
 
@@ -34,9 +61,11 @@ public:
      */
     Grid(int dimensions)
     {
-        score = 0;
-        player_x = 0;
-        player_y = 0;
+        player_score = 0;
+        comp_score = 0;
+
+        player = Player{ 0, 0 };
+        computer = Player{ dimensions - 1, dimensions - 1 };
 
         std::vector<int> row(dimensions, 0);
         for (int i = 0; i < dimensions; i++)
@@ -44,14 +73,15 @@ public:
             grid.push_back(row);
         }
 
-        grid[player_y][player_x] = 1;
+        grid[player.y_pos][player.x_pos] = 1;
+        grid[computer.y_pos][computer.x_pos] = 3;
 
         spawnGoal();
     }
 
     /**
      * @brief randomly places a goal (2) on the grid.
-     * * Ensures the goal does not overlap with the player's
+     * * Ensures the goal does not overlap with the player's or comps
      * current position.
      */
     void spawnGoal()
@@ -61,7 +91,8 @@ public:
         do {
             goal_x = rand() % dim;
             goal_y = rand() % dim;
-        } while (goal_x == player_x && goal_y == player_y);
+        } while ((goal_x == player.x_pos && goal_y == player.y_pos) 
+              || (goal_x == computer.x_pos && goal_y == computer.y_pos));
 
         grid[goal_y][goal_x] = 2;
     }
@@ -71,10 +102,17 @@ public:
      */
     void checkGoal()
     {
-        if (player_x == goal_x && player_y == goal_y)
+        if (player.x_pos == goal_x && player.y_pos == goal_y)
         {
-            score++;
+            player_score++;
             spawnGoal();
+            return;
+        }
+        if (computer.x_pos == goal_x && computer.y_pos == goal_y)
+        {
+            comp_score++;
+            spawnGoal();
+            return;
         }
     }
 
@@ -83,15 +121,16 @@ public:
      */
     void displayGrid()
     {
-        std::cout << "SCORE: " << score << std::endl;
-        std::cout << "----------------" << std::endl;
+        std::cout << "YOUR SCORE: " << player_score << " || COMPUTER SCORE: "<< comp_score << std::endl;
+        std::cout << "--------------------------------" << std::endl;
 
         for (int i = 0; i < grid.size(); i++)
         {
             for (int j = 0; j < grid[i].size(); j++)
             {
-                if (grid[i][j] == 0) std::cout << ". "; 
+                if (grid[i][j] == 0) std::cout << ". ";
                 else if (grid[i][j] == 1) std::cout << "P ";
+                else if (grid[i][j] == 3) std::cout << "C ";
                 else if (grid[i][j] == 2) std::cout << "X ";
             }
             std::cout << std::endl;
@@ -99,59 +138,46 @@ public:
     }
 
     /**
-     * @brief updates player position 1 value to the right and checks goal.
+     * @brief responsible for moving the player/computer object in the grid.
      */
-    void moveRight()
+    void move(User user, Direction dir)
     {
-        if ((player_x + 1) < grid[0].size())
-        {
-            grid[player_y][player_x] = 0;
-            player_x++;                  
-            checkGoal();                 
-            grid[player_y][player_x] = 1;
-        }
-    }
+        Player* p = (user == User::PLAYER) ? &this->player : &this->computer;
+        int id = (user == User::PLAYER) ? 1 : 3;
+        grid[p->y_pos][p->x_pos] = 0;
 
-    /**
-     * @brief updates player position 1 value to the left and checks goal.
-     */
-    void moveLeft()
-    {
-        if ((player_x - 1) >= 0)
-        {
-            grid[player_y][player_x] = 0;
-            player_x--;
-            checkGoal();
-            grid[player_y][player_x] = 1;
-        }
-    }
+        switch (dir) {
+        case Direction::UP:
+            if (p->y_pos - 1 >= 0) {
+                p->y_pos--;
+            }
+            break;
 
-    /**
-     * @brief updates player position 1 value up and checks goal.
-     */
-    void moveUp()
-    {
-        if ((player_y - 1) >= 0)
-        {
-            grid[player_y][player_x] = 0;
-            player_y--;
-            checkGoal();
-            grid[player_y][player_x] = 1;
-        }
-    }
+        case Direction::DOWN:
+            if (p->y_pos + 1 < grid.size()) {
+                p->y_pos++;
+            }
+            break;
 
-    /**
-     * @brief updates player position 1 value down and checks goal.
-     */
-    void moveDown()
-    {
-        if ((player_y + 1) < grid.size())
-        {
-            grid[player_y][player_x] = 0;
-            player_y++;
-            checkGoal();
-            grid[player_y][player_x] = 1;
+        case Direction::LEFT:
+            if (p->x_pos - 1 >= 0) {
+                p->x_pos--;
+            }
+            break;
+
+        case Direction::RIGHT:
+            if (p->x_pos + 1 < grid[0].size()) {
+                p->x_pos++;
+            }
+            break;
+
+        default:
+            break;
         }
+
+        checkGoal();
+
+        grid[p->y_pos][p->x_pos] = id;
     }
 };
 
@@ -175,10 +201,10 @@ int main()
         std::cout << "\nQuit with q, Move (w/a/s/d): ";
         std::cin >> input;
 
-        if (input == 'd') grid.moveRight();
-        else if (input == 'a') grid.moveLeft();
-        else if (input == 'w') grid.moveUp();
-        else if (input == 's') grid.moveDown();
+        if (input == 'd') grid.move(User::PLAYER, Direction::RIGHT);
+        else if (input == 'a') grid.move(User::PLAYER, Direction::LEFT);
+        else if (input == 'w') grid.move(User::PLAYER, Direction::UP);
+        else if (input == 's') grid.move(User::PLAYER, Direction::DOWN);
         else if (input == 'q') break;
     }
 }
