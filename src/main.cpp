@@ -10,6 +10,8 @@
 #include <cstdlib>
 #include <ctime>
 
+#define GRID_SIZE 12
+
 enum class Direction {
     UP,
     DOWN,
@@ -116,10 +118,12 @@ public:
      */
     void displayGrid()
     {
-        std::cout << "YOUR SCORE: " << player_score << " || COMPUTER SCORE: "<< comp_score << std::endl;
-        std::cout << "YOUR POSITION: (" << this->player.x_pos << "," << this->player.y_pos << ")" << " || ";
-        std::cout << "COMPUTER POSITION: (" << this->computer.x_pos << "," << this->computer.y_pos << ")" << std::endl;
-        std::cout << "--------------------------------" << std::endl;
+        std::cout << "// ----------------------------------------------------" << std::endl;
+        std::cout << "// YOUR SCORE    : " << player_score << "     || COMPUTER SCORE    :    "<< comp_score << std::endl;
+        std::cout << "// YOUR POSITION : (" << this->player.x_pos << "," << this->player.y_pos << ")" << " || ";
+        std::cout << "COMPUTER POSITION : (" << this->computer.x_pos << "," << this->computer.y_pos << ")" << std::endl;
+        std::cout << "// ----------------------------------------------------" << std::endl;
+        std::cout << std::endl;
 
         for (int i = 0; i < grid.size(); i++)
         {
@@ -241,7 +245,7 @@ int main()
 {
     std::srand(std::time(0));
 
-    Grid grid(10);
+    Grid grid(GRID_SIZE);
     char input;
 
     bool is_running = true;
