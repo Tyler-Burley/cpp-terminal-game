@@ -32,4 +32,4 @@ g++ main.cpp -o game
 ```
 
 
-<img width="947" height="588" alt="Screenshot 2026-01-05 175544" src="https://github.com/user-attachments/assets/0aee8dcc-37ab-4a2e-8792-794ea91282a8" />
+<img width="1065" height="728" alt="Screenshot 2026-01-05 182706" src="https://github.com/user-attachments/assets/46579709-8a81-4600-85df-fcd4005793bd" />
