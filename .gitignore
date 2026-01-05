@@ -1,0 +1,18 @@
+# --- Visual Studio Specific ---
+.vs/
+x64/
+x86/
+Debug/
+Release/
+*.user
+*.suo
+*.db
+*.ipch
+*.opendb
+
+# --- Standard C++ ---
+*.exe
+*.dll
+*.obj
+*.pdb
+*.d
