@@ -119,7 +119,7 @@ public:
     void displayGrid()
     {
         std::cout << "// ----------------------------------------------------" << std::endl;
-        std::cout << "// YOUR SCORE    : " << player_score << "     || COMPUTER SCORE    :    "<< comp_score << std::endl;
+        std::cout << "// YOUR SCORE    : " << player_score << "     || COMPUTER SCORE    : "<< comp_score << std::endl;
         std::cout << "// YOUR POSITION : (" << this->player.x_pos << "," << this->player.y_pos << ")" << " || ";
         std::cout << "COMPUTER POSITION : (" << this->computer.x_pos << "," << this->computer.y_pos << ")" << std::endl;
         std::cout << "// ----------------------------------------------------" << std::endl;
