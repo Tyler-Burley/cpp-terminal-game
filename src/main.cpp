@@ -19,8 +19,10 @@ int main() {
 
     std::string game_name;
 
-    std::cout << "Hello and welcome to my cpp arcade!" << std::endl;
-    std::cout << "Would you like to play : Collect or Snake?" << std::endl;
+    std::cout << "// ------------------------------------------ //" << std::endl;
+    std::cout << "// Hello and welcome to my cpp arcade!        //" << std::endl;
+    std::cout << "// Would you like to play : COLLECT or SNAKE? //" << std::endl;
+    std::cout << "// ------------------------------------------ //" << std::endl;
 
     std::cin >> game_name;
 

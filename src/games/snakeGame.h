@@ -7,6 +7,25 @@
 
 #pragma once
 #include "../engine/Grid.h"
+#include <vector>
+
+//class SnakeBody
+//{
+//public:
+//    int x, y;
+//    SnakeBody* upper{};
+//    SnakeBody* lower{};
+//
+//public:
+//    SnakeBody(int x, int y)
+//        : x{ x }, y{ y }
+//    { 
+//    }
+//
+//    void grow()
+//    {
+//    }
+//};
 
 /**
  * @class SnakeGame
@@ -15,7 +34,7 @@
 class SnakeGame {
 private:
     Grid grid;
-    Point snake;
+    std::vector<std::pair<int, int>> snake;
     Point apple;
 
     int snake_score;
@@ -23,7 +42,7 @@ private:
     /**
      * @brief Internal helper to increment scores if player reaches apple.
      */
-    void checkGoal();
+    bool checkGoal();
 
     /**
      * @brief Internal helper to ensure goal position doesn't overlap snake body.
@@ -50,7 +69,7 @@ public:
     /**
      * @brief Updates the position of the player/computer if the move is valid.
      */
-    void move(Direction dir);
+    bool move(Direction dir);
 
     /**
      * @brief Creates a nice visual to show game state during execution.

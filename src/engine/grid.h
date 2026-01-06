@@ -13,6 +13,7 @@
 enum class TileType : uint8_t {
     EMPTY,
     PLAYER,  
+    SNAKE,
     GOAL,    
     ENEMY,   
     INVALID

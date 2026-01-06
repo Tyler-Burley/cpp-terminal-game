@@ -61,6 +61,7 @@ void Grid::displayMap() {
             switch (tile) {
             case TileType::EMPTY:  std::cout << ". "; break;
             case TileType::PLAYER: std::cout << "P "; break;
+            case TileType::SNAKE:  std::cout << "0 "; break;
             case TileType::GOAL:   std::cout << "X "; break;
             case TileType::ENEMY:  std::cout << "C "; break;
             default:               std::cout << "? "; break;
