@@ -153,11 +153,18 @@ public:
             if (p->y_pos - 1 >= 0) {
                 p->y_pos--;
             }
+            else {
+                p->y_pos = grid.size() - 1;
+            }
             break;
 
         case Direction::DOWN:
             if (p->y_pos + 1 < grid.size()) {
                 p->y_pos++;
+            }
+            else
+            {
+                p->y_pos = 0;
             }
             break;
 
@@ -165,11 +172,19 @@ public:
             if (p->x_pos - 1 >= 0) {
                 p->x_pos--;
             }
+            else
+            {
+                p->x_pos = grid.size() - 1;
+            }
             break;
 
         case Direction::RIGHT:
             if (p->x_pos + 1 < grid[0].size()) {
                 p->x_pos++;
+            }
+            else
+            {
+                p->x_pos = 0;
             }
             break;
 
