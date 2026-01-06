@@ -114,7 +114,7 @@ public:
      */
     void render() {
         std::cout << "// ----------------------------------------------------" << std::endl;
-        std::cout << "// YOUR SCORE    : " << player_score << "      || COMPUTER SCORE    : " << comp_score << std::endl;
+        std::cout << "// YOUR SCORE    : " << player_score << "     || COMPUTER SCORE    : " << comp_score << std::endl;
         std::cout << "// YOUR POSITION : (" << player.x << "," << player.y << ")" << " || ";
         std::cout << "COMPUTER POSITION : (" << computer.x << "," << computer.y << ")" << std::endl;
         std::cout << "// ----------------------------------------------------" << std::endl;
