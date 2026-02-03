@@ -39,6 +39,9 @@ private:
 
     int snake_score;
 
+    std::atomic<bool> is_running{ true };
+    std::atomic<Direction> dir{ Direction::DOWN };
+
     /**
      * @brief Internal helper to increment scores if player reaches apple.
      */
@@ -75,5 +78,10 @@ public:
      * @brief Creates a nice visual to show game state during execution.
      */
     void render();
+
+    /*
+    * Isolating the loop logic so we can use multithreading
+    */
+    void gameLoop();
 };
 

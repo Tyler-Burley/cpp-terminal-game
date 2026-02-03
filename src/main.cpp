@@ -11,7 +11,7 @@
 #include "games/collectGame.h"
 #include "games/snakeGame.h"
 
-#define BOARD_SZ 12
+#define BOARD_SZ 18
 
 int main() {
     // 1. Global Setup (Seed random number generator once)

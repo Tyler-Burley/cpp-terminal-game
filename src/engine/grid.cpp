@@ -38,7 +38,7 @@ void Grid::set(int x, int y, TileType value) {
 * @brief bounds check for our points.
 */
 bool Grid::isInBounds(int x, int y) const {
-    return (x >= 0 && x < cols && y >= 0 && y < rows);
+    return (x > 0 && x < cols - 1 && y > 0 && y < rows - 1);
 }
 
 /**
@@ -56,10 +56,15 @@ void Grid::clear(TileType value) {
 void Grid::displayMap() {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
+            if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1) {
+                std::cout << "# ";
+                continue;
+            }
+
             TileType tile = map[i][j];
 
             switch (tile) {
-            case TileType::EMPTY:  std::cout << ". "; break;
+            case TileType::EMPTY:  std::cout << "  "; break;
             case TileType::PLAYER: std::cout << "P "; break;
             case TileType::SNAKE:  std::cout << "0 "; break;
             case TileType::GOAL:   std::cout << "X "; break;

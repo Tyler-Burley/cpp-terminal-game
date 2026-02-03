@@ -9,9 +9,11 @@
 #include <iostream>
 #include <cstdlib>
 #include <conio.h> // Windows specific for _getch()
+#include <chrono>
+#include <thread>
 
 SnakeGame::SnakeGame(int size)
-    : grid(size, size), snake{{0, 0}}
+    : grid(size, size), snake{{1, 1}}
 {
     snake_score = 0;
 
@@ -24,8 +26,8 @@ void SnakeGame::spawnGoal() {
     bool on_snake = false;
 
     do {
-        apple.x = rand() % dim;
-        apple.y = rand() % dim;
+        apple.x = (rand() % (dim - 2)) + 1;
+        apple.y = (rand() % (dim - 2)) + 1;
 
         on_snake = false;
         for (const auto& segment : snake) {
@@ -122,49 +124,92 @@ void lose() {
     std::cout << std::endl;
 }
 
-void SnakeGame::run() {
-    bool is_running = true;
-    char input;
-
-    while (is_running) {
+void SnakeGame::gameLoop() {
+    while (is_running.load()) {
         std::cout << "\033[2J\033[H"; // Clear screen
+
+
+        // display the time
+        /*auto end = std::chrono::system_clock::now();
+
+        std::chrono::duration<double> elapsed_seconds = end - start;
+        std::cout << "Time: " << elapsed_seconds.count() << '/n';*/
 
         render();
 
-        std::cout << "\nUse WASD to move (Press 'q' to quit)..." << std::endl;
-        input = _getch();
+        /*std::cout << "\nUse WASD to move (Press 'q' to quit)..." << std::endl;
+        input = _getch();*/
 
-        switch (input) {
-        case 'd': 
+        Direction currentDir = dir.load();
+
+        switch (currentDir) {
+        case Direction::RIGHT:
             if (!move(Direction::RIGHT))
             {
                 is_running = false;
                 lose();
             }
             break;
-        case 'a': 
+        case Direction::LEFT:
             if (!move(Direction::LEFT))
             {
                 is_running = false;
                 lose();
             }
             break;
-        case 'w': 
+        case Direction::UP:
             if (!move(Direction::UP))
             {
                 is_running = false;
                 lose();
             }
             break;
-        case 's': 
+        case Direction::DOWN:
             if (!move(Direction::DOWN))
             {
                 is_running = false;
                 lose();
             }
             break;
-        case 'q': is_running = false; break;
         default: break;
         }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
     }
+}
+
+void SnakeGame::run() {
+    char input;
+
+    /*auto start = std::chrono::system_clock::now();*/
+
+    std::thread t1 = std::thread(&SnakeGame::gameLoop, this);
+
+    // get input from the user
+    while (is_running.load()) {
+        input = _getch();
+
+        switch (input) {
+        case 'w':
+            dir = Direction::UP;
+            break;
+        case 'a':
+            dir = Direction::LEFT;
+            break;
+        case 's':
+            dir = Direction::DOWN;
+            break;
+        case 'd':
+            dir = Direction::RIGHT;
+            break;
+        case 'q':
+            is_running = false;
+            break;
+        }
+    }
+
+    if (t1.joinable()) {
+        t1.join();
+    }
+    
 }
