@@ -46,7 +46,7 @@ g++ main.cpp games/snakeGame.cpp games/collectGame.cpp -o arcade
 <img width="1090" height="967" alt="Screenshot 2026-01-06 140919" src="https://github.com/user-attachments/assets/5cdabec0-d78f-4315-93a1-b7634404b9db" />
 
 ### Snake
-<img width="1085" height="761" alt="Screenshot 2026-01-06 141025" src="https://github.com/user-attachments/assets/2a54b89e-08fe-4888-b939-709c299d6c02" />
+<img width="1072" height="893" alt="Screenshot 2026-02-03 115740" src="https://github.com/user-attachments/assets/27e1be50-9d3f-44b8-a550-2cad6c4b56c3" />
 
 ### You Lose
 <img width="567" height="165" alt="Screenshot 2026-01-06 141102" src="https://github.com/user-attachments/assets/c5bee0ae-398d-4b58-aad9-5cfe6a5026c6" />
