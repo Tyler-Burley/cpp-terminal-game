@@ -26,14 +26,6 @@ void Grid::set(int x, int y, TileType value) {
     }
 }
 
-
-//TileType Grid::get(int x, int y) const {
-//    if (isInBounds(x, y)) {
-//        return map[y][x];
-//    }
-//    return TileType::INVALID;
-//}
-
 /**
 * @brief bounds check for our points.
 */
@@ -54,24 +46,24 @@ void Grid::clear(TileType value) {
 * @brief Convert all of our tiles into strings to be displayed in the terminal.
 */
 void Grid::displayMap() {
+    std::string buffer = ""; // Build the frame here
+
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1) {
-                std::cout << "# ";
+                buffer += "# ";
                 continue;
             }
 
             TileType tile = map[i][j];
-
             switch (tile) {
-            case TileType::EMPTY:  std::cout << "  "; break;
-            case TileType::PLAYER: std::cout << "P "; break;
-            case TileType::SNAKE:  std::cout << "0 "; break;
-            case TileType::GOAL:   std::cout << "X "; break;
-            case TileType::ENEMY:  std::cout << "C "; break;
-            default:               std::cout << "? "; break;
+            case TileType::EMPTY:  buffer += "  "; break;
+            case TileType::SNAKE:  buffer += "0 "; break;
+            case TileType::GOAL:   buffer += "X "; break;
+            default:               buffer += "? "; break;
             }
         }
-        std::cout << std::endl;
+        buffer += "\n";
     }
+    std::cout << buffer << std::flush; // One single output call!
 }

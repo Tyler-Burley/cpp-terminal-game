@@ -125,20 +125,12 @@ void lose() {
 }
 
 void SnakeGame::gameLoop() {
+    // optimization
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(NULL);
+
     while (is_running.load()) {
-        std::cout << "\033[2J\033[H"; // Clear screen
-
-
-        // display the time
-        /*auto end = std::chrono::system_clock::now();
-
-        std::chrono::duration<double> elapsed_seconds = end - start;
-        std::cout << "Time: " << elapsed_seconds.count() << '/n';*/
-
-        render();
-
-        /*std::cout << "\nUse WASD to move (Press 'q' to quit)..." << std::endl;
-        input = _getch();*/
+        std::cout << "\033[H";; // Clear screen
 
         Direction currentDir = dir.load();
 
@@ -174,11 +166,16 @@ void SnakeGame::gameLoop() {
         default: break;
         }
 
+        render();
         std::this_thread::sleep_for(std::chrono::milliseconds(300));
     }
 }
 
 void SnakeGame::run() {
+    // still need to clear the main screen;
+    std::cout << "\033[2J\033[H" << std::flush;
+
+
     char input;
 
     /*auto start = std::chrono::system_clock::now();*/
